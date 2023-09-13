@@ -1,39 +1,35 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
-const LIST = Array(1000000)
-  .fill()
-  .map((_, i) => i+1)
+function App() {
+  const [name, setName] = useState("")
+  const [age, setAge] = useState(0)
 
-  function App() {
-    const [query, setQuery] = useState("")
-    const [isDarkMode, setIsDarkMode] = useState(false)
-
-    const filteredList = LIST.filter(n => n.toString().includes(query))
-
-    console.log(filteredList.length)
-
-    return (
-      <div
-        style={{
-          background: isDarkMode ? "#333" : "white",
-          color: isDarkMode ? "white" : "#333",
-        }}>
-        <label>
-          Query: 
-          <input value={query} onChange={e => setQuery(e.target.value)}/>
-          </label>
-          <br />
-          <label>
-            <input
-              type="checkbox"
-              onChange={e => setIsDarkMode(e.target.checked)}
-              checked={isDarkMode}
-            />
-            Dark Mode
-          </label>
-        </div>
-
-    )
+  function printName() {
+    console.log(`Name: ${name}`)
   }
 
-  export default App
+useEffect(() => {
+  console.log("In Effect")
+  printName()
+}, [printName])
+
+return (
+  <>
+    <label>
+      Name:
+      <input value={name} onChange={e => setName(e.target.value)} />
+    </label>
+    <br />
+    <label>
+      Age:
+      <input
+        type="number"
+        value={age}
+        onChange={e => setAge(e.target.valueAsNumber)}
+      />
+    </label>
+  </>
+)
+}
+
+export default App
