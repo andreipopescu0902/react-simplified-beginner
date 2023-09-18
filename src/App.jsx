@@ -1,35 +1,51 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
+
+const URLS = {
+  USERS: "https://jsonplaceholder.typicode.com/users",
+  POSTS: "https://jsonplaceholder.typicode.com/posts",
+  COMMENTS: "https://jsonplaceholder.typicode.com/comments",
+}
 
 function App() {
-  const [name, setName] = useState("")
-  const [age, setAge] = useState(0)
+  const [url,setUrl] = useState(URLS.USERS)
 
-  function printName() {
-    console.log(`Name: ${name}`)
-  }
+  const {data, isLoading, isError} = useFetch(url)
 
-useEffect(() => {
-  console.log("In Effect")
-  printName()
-}, [printName])
-
-return (
-  <>
-    <label>
-      Name:
-      <input value={name} onChange={e => setName(e.target.value)} />
-    </label>
-    <br />
-    <label>
-      Age:
-      <input
-        type="number"
-        value={age}
-        onChange={e => setAge(e.target.valueAsNumber)}
-      />
-    </label>
-  </>
-)
+  return(
+    <>
+      <div>
+        <label>
+          <input 
+            type="radio"
+            checked={url === URLS.USERS}
+            onChange={() => setUrl(URLS.USERS)}
+            />
+            Users
+        </label>
+        <label>
+        <input 
+            type="radio"
+            checked={url === URLS.POSTS}
+            onChange={() => setUrl(URLS.POSTS)}
+            />
+            Posts
+        </label>
+        <label>
+        <input 
+            type="radio"
+            checked={url === URLS.COMMENTS}
+            onChange={() => setUrl(URLS.COMMENTS)}
+            />
+            Comments
+        </label>
+      </div>
+      {isLoading ? (
+        <h1>Error</h1>
+      ) : (
+        <pre>{JSON.stringify(data,null,2)}</pre>
+      )}
+    </>
+  )
 }
 
 export default App
